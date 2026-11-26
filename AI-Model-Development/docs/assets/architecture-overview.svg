@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1120" viewBox="0 0 1600 1120" role="img" aria-labelledby="title desc">
+  <title id="title">本地 AI 推理平台总体架构</title>
+  <desc id="desc">六层本地 AI 推理平台架构，包括应用接入、统一 API 网关、资源控制、本地和云端推理、监控与数据层。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fbff"/>
+      <stop offset="100%" stop-color="#eef4fb"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#64748b"/>
+    </marker>
+    <style>
+      .h1{font:700 34px Arial,"Microsoft YaHei",sans-serif;fill:#102a43}
+      .sub{font:400 17px Arial,"Microsoft YaHei",sans-serif;fill:#526579}
+      .layer{font:700 18px Arial,"Microsoft YaHei",sans-serif;fill:#243b53}
+      .node{font:700 19px Arial,"Microsoft YaHei",sans-serif;fill:#17324d}
+      .small{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#425466}
+      .tiny{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526579}
+      .line{stroke:#64748b;stroke-width:3;fill:none;marker-end:url(#arrow)}
+      .dashed{stroke:#94a3b8;stroke-width:2;stroke-dasharray:8 7;fill:none}
+    </style>
+  </defs>
+  <rect width="1600" height="1120" rx="28" fill="url(#bg)"/>
+  <text x="800" y="62" text-anchor="middle" class="h1">本地 AI 推理平台 · 总体技术架构</text>
+  <text x="800" y="94" text-anchor="middle" class="sub">统一 API · 显存感知资源控制 · 多推理引擎 · 本地与云端协同</text>
+
+  <!-- Application layer -->
+  <rect x="80" y="130" width="1440" height="130" rx="20" fill="#e8f1ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="112" y="163" class="layer">① 应用接入层 / Application Layer</text>
+  <g>
+    <rect x="120" y="182" width="300" height="55" rx="12" fill="#fff" stroke="#93c5fd"/>
+    <text x="270" y="216" text-anchor="middle" class="node">Python / PyTorch</text>
+    <rect x="450" y="182" width="300" height="55" rx="12" fill="#fff" stroke="#93c5fd"/>
+    <text x="600" y="216" text-anchor="middle" class="node">TypeScript / Node.js</text>
+    <rect x="780" y="182" width="300" height="55" rx="12" fill="#fff" stroke="#93c5fd"/>
+    <text x="930" y="216" text-anchor="middle" class="node">RAG / Agent / Multi-Agent</text>
+    <rect x="1110" y="182" width="360" height="55" rx="12" fill="#fff" stroke="#93c5fd"/>
+    <text x="1290" y="216" text-anchor="middle" class="node">开发工具与内部应用</text>
+  </g>
+
+  <path d="M800 260 V300" class="line"/>
+
+  <!-- Gateway -->
+  <rect x="80" y="310" width="1440" height="125" rx="20" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+  <text x="112" y="344" class="layer">② 统一 API 网关 / API Gateway</text>
+  <rect x="210" y="362" width="1180" height="52" rx="12" fill="#fff" stroke="#7dd3fc"/>
+  <text x="800" y="395" text-anchor="middle" class="node">LiteLLM Proxy · 认证 · 模型别名 · 限流 · 路由 · 重试 · 故障转移</text>
+
+  <path d="M800 435 V475" class="line"/>
+
+  <!-- Resource manager -->
+  <rect x="80" y="485" width="1440" height="180" rx="20" fill="#fff3e0" stroke="#ea580c" stroke-width="2"/>
+  <text x="112" y="520" class="layer">③ 模型资源控制层 / Model Resource Manager（自主建设）</text>
+  <g>
+    <rect x="110" y="545" width="210" height="82" rx="12" fill="#fff" stroke="#fdba74"/>
+    <text x="215" y="578" text-anchor="middle" class="node">Model Registry</text>
+    <text x="215" y="603" text-anchor="middle" class="tiny">模型能力与配置</text>
+    <rect x="350" y="545" width="210" height="82" rx="12" fill="#fff" stroke="#fdba74"/>
+    <text x="455" y="578" text-anchor="middle" class="node">GPU Monitor</text>
+    <text x="455" y="603" text-anchor="middle" class="tiny">NVML / RAM / GPU</text>
+    <rect x="590" y="545" width="220" height="82" rx="12" fill="#fff" stroke="#fdba74"/>
+    <text x="700" y="578" text-anchor="middle" class="node">Cache Estimator</text>
+    <text x="700" y="603" text-anchor="middle" class="tiny">权重 / KV / 工作区</text>
+    <rect x="840" y="545" width="210" height="82" rx="12" fill="#fff" stroke="#fdba74"/>
+    <text x="945" y="578" text-anchor="middle" class="node">Admission</text>
+    <text x="945" y="603" text-anchor="middle" class="tiny">预留 / 排队 / 拒绝</text>
+    <rect x="1080" y="545" width="190" height="82" rx="12" fill="#fff" stroke="#fdba74"/>
+    <text x="1175" y="578" text-anchor="middle" class="node">Lifecycle</text>
+    <text x="1175" y="603" text-anchor="middle" class="tiny">加载 / 卸载 / 健康</text>
+    <rect x="1300" y="545" width="190" height="82" rx="12" fill="#fff" stroke="#fdba74"/>
+    <text x="1395" y="578" text-anchor="middle" class="node">Privacy Policy</text>
+    <text x="1395" y="603" text-anchor="middle" class="tiny">本地 / 云端边界</text>
+  </g>
+
+  <path d="M800 665 V705" class="line"/>
+
+  <!-- Engines -->
+  <rect x="80" y="715" width="930" height="190" rx="20" fill="#e8f7ef" stroke="#16a34a" stroke-width="2"/>
+  <text x="112" y="750" class="layer">④ 本地推理引擎 / Local Inference</text>
+  <g>
+    <rect x="120" y="775" width="190" height="92" rx="12" fill="#fff" stroke="#86efac"/>
+    <text x="215" y="813" text-anchor="middle" class="node">llama.cpp</text>
+    <text x="215" y="839" text-anchor="middle" class="tiny">GGUF / CPU + GPU</text>
+    <rect x="335" y="775" width="190" height="92" rx="12" fill="#fff" stroke="#86efac"/>
+    <text x="430" y="813" text-anchor="middle" class="node">Ollama</text>
+    <text x="430" y="839" text-anchor="middle" class="tiny">模型管理 / 快速验证</text>
+    <rect x="550" y="775" width="190" height="92" rx="12" fill="#fff" stroke="#86efac"/>
+    <text x="645" y="813" text-anchor="middle" class="node">vLLM</text>
+    <text x="645" y="839" text-anchor="middle" class="tiny">高吞吐 / PagedAttention</text>
+    <rect x="765" y="775" width="190" height="92" rx="12" fill="#fff" stroke="#86efac"/>
+    <text x="860" y="813" text-anchor="middle" class="node">SGLang</text>
+    <text x="860" y="839" text-anchor="middle" class="tiny">Radix Cache / 对比测试</text>
+  </g>
+
+  <!-- Cloud -->
+  <rect x="1040" y="715" width="480" height="190" rx="20" fill="#f3e8ff" stroke="#9333ea" stroke-width="2"/>
+  <text x="1072" y="750" class="layer">⑤ 云端推理服务 / Cloud</text>
+  <rect x="1080" y="775" width="400" height="38" rx="10" fill="#fff" stroke="#c4b5fd"/>
+  <text x="1280" y="800" text-anchor="middle" class="node">商业模型 API</text>
+  <rect x="1080" y="825" width="400" height="38" rx="10" fill="#fff" stroke="#c4b5fd"/>
+  <text x="1280" y="850" text-anchor="middle" class="node">自建 GPU 推理服务</text>
+
+  <!-- Observability -->
+  <path d="M545 905 V940" class="line"/>
+  <path d="M1280 905 V940" class="line"/>
+  <rect x="80" y="950" width="1440" height="120" rx="20" fill="#edf2f7" stroke="#64748b" stroke-width="2"/>
+  <text x="112" y="985" class="layer">⑥ 监控与数据层 / Observability</text>
+  <g>
+    <rect x="150" y="1000" width="270" height="48" rx="10" fill="#fff" stroke="#94a3b8"/>
+    <text x="285" y="1031" text-anchor="middle" class="node">Prometheus</text>
+    <rect x="470" y="1000" width="270" height="48" rx="10" fill="#fff" stroke="#94a3b8"/>
+    <text x="605" y="1031" text-anchor="middle" class="node">Grafana</text>
+    <rect x="790" y="1000" width="270" height="48" rx="10" fill="#fff" stroke="#94a3b8"/>
+    <text x="925" y="1031" text-anchor="middle" class="node">OpenTelemetry</text>
+    <rect x="1110" y="1000" width="340" height="48" rx="10" fill="#fff" stroke="#94a3b8"/>
+    <text x="1280" y="1031" text-anchor="middle" class="node">SQLite / 实验记录</text>
+  </g>
+</svg>
